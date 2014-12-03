@@ -1,4 +1,4 @@
-@extends('index')
+@extends('_master')
 
 @section('results')
 <br />

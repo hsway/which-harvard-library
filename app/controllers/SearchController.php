@@ -3,12 +3,27 @@
 class SearchController extends BaseController {
 
 	public function getSearchForm() {
-		return View::make('index');
+		return View::make('_master');
 	}
 
 	public function postSearchForm() {
 
-		$url = 'http://api.lib.harvard.edu/v2/items.json?q=' . Input::get('search') . '&facets=physicalLocation';
+		$rules = array(
+			'search' => 'required|alpha_num'
+		);
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()) {
+
+			return Redirect::to('/')
+				->withInput()
+				->withErrors($validator);
+		}
+
+		$search = rawurlencode(Input::get('search'));
+
+		$url = 'http://api.lib.harvard.edu/v2/items.json?q=' . $search . '&facets=physicalLocation';
 		$json = file_get_contents($url);
 		$data = json_decode($json, true);
 
