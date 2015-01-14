@@ -9,7 +9,7 @@ class SearchController extends BaseController {
 	public function postSearchForm() {
 
 		$rules = array(
-			'search' => 'required|alpha_num'
+			'search' => 'required'
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
